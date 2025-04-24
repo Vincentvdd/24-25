@@ -1,0 +1,6 @@
+{"type":["init_ps"],"time":["2025-04-24 15:48:51"],"user":["Vincent"],"umph":[1745502531.7977],"ok":[true]}
+,
+{"type":["check_chunk"],"time":["2025-04-24 15:48:51"],"user":["Vincent"],"umph":[1745502531.863],"ok":[true],"chunk":[2],"ex":[1],"e.ind":[0],"code":["a <- 11*13\na"],"message":[""]}
+,
+{"type":["check_chunk"],"time":["2025-04-24 15:48:51"],"user":["Vincent"],"umph":[1745502531.8805],"ok":[false],"chunk":[3],"ex":[1],"e.ind":[1],"code":["# Enter your code here.\n"],"message":["\nYou have not yet made an assignment to b in chunk 1_b_2."]}
+,
