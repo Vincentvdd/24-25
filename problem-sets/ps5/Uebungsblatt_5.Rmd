@@ -1,7 +1,7 @@
 
 ```{r 'check_ps', include=FALSE}
 
-user.name = 'ENTER A USER NAME HERE'
+user.name = 'Vincent_vdD'
 ```
 
 # RTutor Uebungsblatt 5 - Projektkurs
@@ -41,6 +41,7 @@ Bitte installieren Sie die Pakete `stargazer`, `wooldridge`, `DiagrammeR` und `s
 a) Im wooldridge-Pakte finden Sie den Datensatz `wage1`, welcher US Daten zu 526 Arbeitnehmern, deren Loehne, Ausbildung und Herkunft aus dem Jahr 1976 enthaelt. Lassen Sie folgenden Code laufen, um die Daten in einer Variablen zu speichern und einen Ueberblick zu erhalten:
 ```{r "1_a"}
 library(wooldridge)
+library(skimr)
 data(wage1)
 head(wage1)
 skim(wage1)
@@ -52,12 +53,9 @@ Fuer eine Erklaerung der Variablen geben Sie einfach `help(wage1)` in der R Kons
 b) Wir moechten nun durch eine lineare Regression den Zusammenhang zwischen Stundenlohn in Dollar (wage) als abhaengige Variable und Ausbildungszeit in Jahren (educ) als erklaerende Variable beschreiben. Fuehren Sie die entsprechende Regression durch, speichern das Ergebnis als `reg1` und zeigen Sie ein `summary` von `reg1`.
 
 ```{r "1_b",optional=TRUE}
-
-# enter your code here ...
-
-
-# enter your code here ...
-
+reg1 <- lm(wage ~ educ, data = wage1)
+# Zusammenfassung der Regression anzeigen
+summary(reg1)
 ```
 Hier waere ein guter Zeitpunkt das Addin 'Check Problemset' auszufuehren!
 
@@ -69,6 +67,7 @@ Schreiben Sie "ja" oder "nein"
 ```{r "1_c",optional=TRUE}
 
 # enter your code here ...
+"nein"
 
 ```
 Hier waere ein guter Zeitpunkt das Addin 'Check Problemset' auszufuehren!
@@ -88,11 +87,13 @@ e) Ein Hauptgrund fuer Verzerrungen sind das wichtige Einflussgroessen, die sowo
 Vervollstaendigen Sie den Code and der Stelle ___, um die durchschnittlichen Ausbildungsjahre von Maennern und Frauen zu vergleichen.
 
 ```{r "1_e",optional=TRUE}
-wage1 |>
- mutate(gender = ifelse(female==1,"___","___")) |>
- group_by(gender) |>
- summarize(mean(___))
+#wage1 |>
+ #mutate(gender = ifelse(female==1,"___","___")) |>
+# group_by(gender) |>
+ #summarize(mean(___))
 
+
+ summarize(group_by(mutate(wage1, gender = ifelse(female == 1, "female", "male")), gender), mean(educ))
 # enter your code here ...
 
 ```
@@ -127,7 +128,7 @@ Tippen Sie 1 oder 2 ein:
 ```{r "1_e_3",optional=TRUE}
 
 # enter your code here ...
-
+1
 ```
 Hier waere ein guter Zeitpunkt das Addin 'Check Problemset' auszufuehren!
 
@@ -165,7 +166,7 @@ Nehmen Sie an, wir regressieren y auf x ohne fuer w zu kontrollieren, d.h `lm(y~
 ```{r "1_g_2",optional=TRUE}
 
 # enter your code here ...
-
+"unverzerrt"
 ```
 Hier waere ein guter Zeitpunkt das Addin 'Check Problemset' auszufuehren!
 
@@ -224,7 +225,7 @@ Frage: Liegt in der zweiten Regression der wahre kausale Effekt `beta1=2` im 95%
 ```{r "1_g_5"}
 
 # enter your code here ...
-
+"nein"
 ```
 Hier waere ein guter Zeitpunkt das Addin 'Check Problemset' auszufuehren!
 
@@ -236,7 +237,7 @@ Berechnen Sie auch das 99% Konfidenzintervall:
 ```{r "1_g_7"}
 
 # enter your code here ...
-
+confint(lm(y ~ x), level = 0.99)
 ```
 Hier waere ein guter Zeitpunkt das Addin 'Check Problemset' auszufuehren!
 
@@ -289,7 +290,7 @@ In welche Richtung veraendert sich vermutlich der geschaetzte Koeffizient von `e
 ```{r "1_h_5",optional=TRUE}
 
 # enter your code here ...
-
+"groesser"
 ```
 Hier waere ein guter Zeitpunkt das Addin 'Check Problemset' auszufuehren!
 
@@ -314,7 +315,7 @@ Geben Sie 0.54 oder 0.64 an.
 ```{r "1_h_7"}
 
 # enter your code here ...
-
+ 0.54
 ```
 Hier waere ein guter Zeitpunkt das Addin 'Check Problemset' auszufuehren!
 
@@ -331,7 +332,7 @@ reg1 <- lm(wage ~ educ, data = wage1)
 reg2 <- lm(wage ~ educ + female + nonwhite, data=wage1)
 
 # enter your code here ...
-
+reg3 <- lm(wage ~ educ + female + nonwhite + exper, data = wage1)
 ```
 Hier waere ein guter Zeitpunkt das Addin 'Check Problemset' auszufuehren!
 
@@ -365,7 +366,8 @@ Als kleine Voruebung, speichern Sie in der Variablen `n_train` die Zahl der Arbe
 ```{r "2_a_2"}
 
 # enter your code here ...
-
+n_train = sum(jtrain3$train)
+n_train
 ```
 Hier waere ein guter Zeitpunkt das Addin 'Check Problemset' auszufuehren!
 
@@ -380,7 +382,7 @@ Geben Sie hier die Ziffer Ihrer Antwort ein und fuehren Sie die Codezeile aus:
 ```{r "2_a_3"}
 
 # enter your code here ...
-
+2
 ```
 Hier waere ein guter Zeitpunkt das Addin 'Check Problemset' auszufuehren!
 
@@ -392,7 +394,10 @@ b) Fuehren Sie eine lineare Regression (mittels OLS) mit x=`train` und y=`unem78
 ```{r "2_b"}
 
 # enter your code here ...
+reg1 <- lm(unem78 ~ train, data = jtrain3)
 
+# Zusammenfassung der Regression anzeigen
+summary(reg1)
 
 # enter your code here ...
 
@@ -405,9 +410,10 @@ Bedeutet dies, dass mehr Weiterbildung zu mehr Arbeitslosigkeit fuehrt?
 
 c) Ergaenzen Sie folgenden Code um die durchschnittliche Teilnahme an Weiterbildungsprogrammen 1977 und die Arbeitslosenquote 1978 zwischen den Personen zu vergleichen, die 1975 arbeitslos/nicht arbeitslos waren.
 ```{r "2_c"}
-___ |> 
- group_by(___) |>
- summarize(mean(train), mean(___))
+#___ |> 
+# group_by(___) |>
+# summarize(mean(train), mean(___))
+summarize(group_by(jtrain3, unem75), mean(train), mean(unem78))
 
 # enter your code here ...
 
@@ -445,7 +451,7 @@ Schreiben Sie "kleiner" oder "groesser".
 ```{r "2_d_2"}
 
 # enter your code here ...
-
+"kleiner"
 ```
 Hier waere ein guter Zeitpunkt das Addin 'Check Problemset' auszufuehren!
 
@@ -453,8 +459,10 @@ Regressieren Sie nun `unem78` auf `train` und `unem75`. Speichern Sie das Ergebn
 
 ```{r "2_d_3"}
 
-# enter your code here ...
+reg2 <- lm(unem78 ~ train + unem75, data = jtrain3)
 
+# Zusammenfassung
+summary(reg2)
 ```
 Hier waere ein guter Zeitpunkt das Addin 'Check Problemset' auszufuehren!
 
@@ -468,13 +476,18 @@ Erstellen Sie zwei Datensaetze aus `jtrain3`:
 ```{r "2_e"}
 
 # enter your code here ...
-
+jtrain3_la <- subset(jtrain3, unem75 == 1)
+jtrain3_ka <- subset(jtrain3, unem75 == 0)
 ```
 Hier waere ein guter Zeitpunkt das Addin 'Check Problemset' auszufuehren!
 
 Lassen Sie nun die einfache Regression von `unem78` auf `train` (ohne `unem75`) fuer beide Datensaetze (`jtrain3_la` und `jtrain3_ka`) laufen. Speichern Sie die Ergebnisse in den Variablen `reg_la` und `reg_ka` ab. Zeigen Sie danach `reg1`, `reg2`, `reg_la` und `reg_ka` nebeneinander mit `stargazer`.
 
 ```{r "2_e_2"}
+reg_la <- lm(unem78 ~ train, data = jtrain3_la)
+
+# Regression für die anderen
+reg_ka <- lm(unem78 ~ train, data = jtrain3_ka)
 
 # enter your code here ...
 
@@ -530,7 +543,7 @@ Meinen Sie dieses Design loest die meisten relevanten Selektionsproblem und erla
 ```{r "2_f_2"}
 
 # enter your code here ...
-
+"nein"
 ```
 Hier waere ein guter Zeitpunkt das Addin 'Check Problemset' auszufuehren!
 
