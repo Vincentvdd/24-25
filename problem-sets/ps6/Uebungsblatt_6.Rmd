@@ -1,7 +1,7 @@
 
 ```{r 'check_ps', include=FALSE}
 
-user.name = 'ENTER A USER NAME HERE'
+user.name = 'Vincent_vdd'
 ```
 
 # RTutor Uebungsblatt 6 - Projektkurs
@@ -54,7 +54,7 @@ a) Wie sollte ein Experiment ausgestaltet sein, um valide Aussagen über den Eff
 Schreiben Sie die Nummer des Experiments:
 ```{r "1_a"}
 
-# enter your code here ...
+2
 
 ```
 
@@ -68,7 +68,7 @@ b) Daher machen wir weitere zwei Vorschläge für eine Experiment. Sind diese Ex
 
 Schreiben Sie die Nummer des Experiments oder "nein":
 ```{r "1_b"}
-
+"nein"
 # enter your code here ...
 
 ```
@@ -92,7 +92,7 @@ thp <- read_csv("./data/THP_clean.csv") |>
   select(newid, uc, depressed_1y, treat, age_baseline, age_baseline_sq, kids_no, famstruct_baseline, grandmother_baseline, edu_mo, edu_fa, employed_mo_baseline, incomeindex, depindex_0, mspss_tot)
 
 # enter your code here ...
-
+skim(thp)
 ```
 
 Hier eine Erklärung der wichtigsten Variablen:
@@ -119,14 +119,12 @@ thp_plots <- thp |>
   mutate(treat_factor = as.factor(ifelse(treat == 1 , "Treatment", "Kontrolle")),
          depressed = as.factor(ifelse(depressed_1y == 0, "keine Depressionen", "Depressionen"))) |>
   filter( !is.na(depressed)) 
-#plot_prop_depression <- ggplot(___, aes(x = ___, fill = ___)) +
-#  geom_bar(position = "fill") +
-#  labs(x = NULL, y = "Anteil an Depressionen", fill = NULL) +
-#  scale_fill_manual(values = c("darkblue", "darkred"))
+plot_prop_depression <- ggplot(thp_plots, aes(x = depressed, fill = treat_factor)) +
+  geom_bar(position = "fill") +
+  labs(x = NULL, y = "Anteil an Depressionen", fill = NULL) +
+  scale_fill_manual(values = c("darkblue", "darkred"))
 
-#plot_prop_depression
-
-# enter your code here ...
+plot_prop_depression
 
 ```
 
@@ -140,7 +138,7 @@ Schreiben sie "ja" oder "nein"
 ```{r "1_e",optional=TRUE}
 
 # enter your code here ...
-
+"ja"
 ```
 
 
@@ -150,7 +148,7 @@ Schreiben sie "überschätzen" oder "unterschätzen"
 ```{r "1_f",optional=TRUE}
 
 # enter your code here ...
-
+"unterschätzen"
 ```
 
 Genau! Dies wäre für unser Experiment tatsächlich _eines_ der größten Probleme. Doch unser Experiment wurde in Pakistan durchgeführt. Dort ist die medizinische Versorgung, insbesondere für psychische Erkrankungen, sehr schlecht. D.h. Frauen die durch das Experiment keine psychologische Betreuung bekommen, erhalten höchst wahrscheinlich keine auf anderem Weg. 
@@ -181,7 +179,7 @@ Schreiben Sie die Nummer der Variablen:
 ```{r "1_g"}
 
 # enter your code here ...
-
+"3"
 ```
 
 Wenn Treatment und Kontrollgruppe auf Basis der Grundcharakteristika sehr unterschiedlich voneinander sind, dann könnte dies darauf hindeuten, dass die Randomisierung nicht gut durchgeführt wurde. Insgesamt sind die Differenzen zwischen der Treatment und Kontrollgruppe nicht besonders groß und die p-Werte des t-Test, welcher uns zeigt, ob die Differenzen der zwei Gruppen signifikant voneinander unterschiedlich sind, sind meist nicht statistisch signifikant (d.h. in den meisten Fällen größer als 0,05).
@@ -195,7 +193,7 @@ h) Führen Sie folgenden Code aus. Fügen Sie zu dem Code noch eine dritte Regre
 ```{r "1_h"}
 reg1 <- lm(depressed_1y ~ treat, data=thp)
 reg2 <- lm(depressed_1y ~ treat + depindex_0, data=thp)
-
+reg3 <- lm(depressed_1y ~ treat + depindex_0 + age_baseline + age_baseline_sq + kids_no + famstruct_baseline + grandmother_baseline + edu_mo + edu_fa + employed_mo_baseline + incomeindex + mspss_tot, data = thp)
 # enter your code here ...
 
 ```
@@ -220,7 +218,7 @@ Schreiben Sie einen Vektor mit den Nummern der richtigen Interpretation(en):
 ```{r "1_i_2"}
 
 # enter your code here ...
-
+c(1, 4)
 ```
 Hier wäre ein guter Zeitpunkt das Addin 'Check Problemset' auszuführen!
 
@@ -240,7 +238,7 @@ Schreiben Sie die Nummer der richtigen Antwort:
 ```{r "1_j"}
 
 # enter your code here ...
-
+"2"
 ```
 
 Wir sehen, dass eine Intervention bei Wochenbettdepressionen eine deutliche Reduktion der Langzeitfolgen hat. Wir können die Koeffizienten, welche wir hier in unserer linearen Regression erhalten haben, direkt kausal interpretieren, was uns die Interpretation deutlich erleichtert. Dafür hatten sich die Autoren jedoch viele Gedanken bzgl. dem Desgin des Experiments gemacht und konnten in Pakistan auch eine große Gruppe an (werdenden) Müttern beobachten (und hatten die entsprechenden Mittel das Experiment auch durchzuführen).
@@ -272,7 +270,7 @@ Welche Bedeutung hat die Variable `work`
 ```{r "2_a_2",optional=TRUE}
 
 # enter your code here ...
-
+"2"
 ```
 
 b) Führen Sie nun eine einfache lineare Regression durch in der Sie den Zusammenhang untersuchen ob eine Frau mit mehr als zwei Kindern mit einer geringeren Wahrscheinlichkeit im vergangenen Jahr gearbeitet hat als eine mit zwei Kinder. Speichern Sie das Ergebnis als `reg1` und zeigen Sie ein `summary` von `reg1`.
@@ -284,7 +282,8 @@ Fertility <- Fertility |>
 
 # enter your code here ...
 
-
+reg1 <- lm(work01 ~ morekids, data = Fertility)
+summary(reg1)
 # enter your code here ...
 
 ```
@@ -302,7 +301,7 @@ Schreiben Sie hier die Nummer der Aussage:
 ```{r "2_c",optional=TRUE}
 
 # enter your code here ...
-
+"2"
 ```
 Hier wäre ein guter Zeitpunkt das Addin 'Check Problemset' auszuführen!
 
@@ -363,7 +362,7 @@ Schreiben Sie hier die Nummer der Variablen:
 ```{r "2_d_4"}
 
 # enter your code here ...
-
+3
 ```
 
 e) Im folgenden sind drei potentielle Instrumentalvariablen mit drei Regressionen gegeben. Für welche der drei würden Sie sich entscheiden?
@@ -394,7 +393,7 @@ Schreiben Sie hier die Nummer der Variablen:
 ```{r "2_e_2"}
 
 # enter your code here ...
-
+3
 ```
 
 Genau! Die beiden anderen Instrumentalvariablen wären nicht so gut oder gar nicht geeignet. Die erste Instrumentalvariable erfüllt vermutlich nicht die Exogenitätsbedingung, da das Geschlecht des zweiten Kindes vermutlich einen Einfluss auf die Berufstätigkeit der Mutter hat. Falls das zweite Kind ein Junge ist und das erste Kind ein Mädchen war (oder anders herum), dann wird die Frau vermutlich eher wieder arbeiten gehen, wie wenn beide Kinder das gleiche Geschlecht haben. Die zweite Instrumentalvariable hat vermutlich nur eine geringe Korrelation mit der Anzahl an Kindern, insbesondere in den USA, wo die Studie durchgeführt wurde. D.h. bei der zweiten Instrumentalvariable wäre die Relevanz der Variablen vermutlich nicht gegeben. 
